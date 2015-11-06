@@ -44,14 +44,22 @@ exports.hash = function (pwd, salt, fn) {   // khai báo một chức năng hàm
 
       fn(err, hash.toString('base64'));
     });
-  } else {      // nếu thông số không đủ , mặc định ta sẽ
+  } else {      // nếu thông số thứ 3 là fn (đây là vị trí truyền vào hàm callback) nếu chưa có mà lại lằm ở salt thì logic viết dưới đây mục đích là sinh thêm một đối số lữa cho đủ để tạo salt và hash
+    console.log("-----ZZZ",fn);
     fn = salt;
+    console.log("~~~~~0", pwd);
+    console.log("+++++1",salt);
+    console.log("-----2", typeof fn);
     crypto.randomBytes(len, function(err, salt){
       if (err) return fn(err);
+      console.log("!!!!!!!  ", salt);
       // random ra một mã băm base64 cho đối số salt
       salt = salt.toString('base64');
+      console.log("######",salt);
       crypto.pbkdf2(pwd, salt, iterations, len, function(err, hash){
         if (err) return fn(err);
+        console.log("12345  ",hash);
+        console.log("45678  ", hash.toString('base64'));
         // thực hiện lại việc băm passwork
         fn(null, salt, hash.toString('base64')); // trả về salt và mã băm được băm theo giá trị salt vì
                                                 // fn = salt; ở đoạn code trên thưc chất là hash(salt) hash thực chất là salt.base64

@@ -48,6 +48,8 @@ var users = {
 
 hash('foobar', function(err, salt, hash){
   if (err) throw err;
+  console.log("value salt :  ", salt);
+  console.log("value hash : ", hash);
   // store the salt & hash in the "db"
   users.tj.salt = salt;    // nếu trường hợp không chuyền đủ vào 3 đối số như ở trên có 2 đối số thì giá trị salt random
   users.tj.hash = hash;     // mã hash được băm theo pass foobar
@@ -123,6 +125,12 @@ app.post('/login', function(req, res){
     }
   });
 });
+
+//// $ node foo.js
+//   console.log(module.parent); // `null`
+//// require('./foo')
+//   console.log(module.parent); // `{ ... }`
+// dùng để kiểm tra module đã chạy chưa
 
 /* istanbul ignore next */
 if (!module.parent) {

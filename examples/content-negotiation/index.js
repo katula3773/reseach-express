@@ -4,6 +4,8 @@ var users = require('./db');
 
 // so either you can deal with different types of formatting
 // for expected response in index.js
+
+
 app.get('/', function(req, res){
   res.format({
     html: function(){
@@ -29,13 +31,22 @@ app.get('/', function(req, res){
 // and make things a bit more declarative:
 
 function format(path) {
+  console.log(path);
   var obj = require(path);
+  console.log(obj);
   return function(req, res){
-    res.format(obj);
+    console.log("~~~~~~~~",obj);
+    res.format(obj);    // ở trong list các định rạng được trả về thì định rạng html sẽ được trả về trước
   };
 }
 
 app.get('/users', format('./users'));
+
+//// $ node foo.js
+//   console.log(module.parent); // `null`
+//// require('./foo')
+//   console.log(module.parent); // `{ ... }`
+// dùng để kiểm tra module đã chạy chưa
 
 /* istanbul ignore next */
 if (!module.parent) {
